@@ -1,13 +1,17 @@
-.PHONY: all main_all clean
+.PHONY: all main_all main_basic clean
 
 all: main_all lib.so
 
 main_all: main_basic main_libs
 
+main_basic: main_basic_local main_basic_global
+
 # not working
-main_basic: main.c
-# not working
-	gcc -o main_basic -g -O0 main.c -ldl
+main_basic_local: main.c
+	gcc -o main_basic_local -g -O0 main.c -ldl
+
+main_basic_global: main.c
+	gcc -o main_basic_global -g -O0 main.c -ldl -DLOAD_GLOBAL
 
 # working
 main_libs: main.c
@@ -20,4 +24,4 @@ lib.so.1: lib.c
 	gcc -shared -fPIC -Wl,-soname,lib.so.1,--no-as-needed -o lib.so.1 -m64 -I/opt/intel/mkl/include lib.c -L/opt/intel/mkl/lib/intel64_lin -lmkl_core -lmkl_sequential -lmkl_intel_lp64 -lpthread -lm
 
 clean:
-	rm main_basic main_libs lib.so lib.so.1
+	rm main_basic_local main_basic_global main_libs lib.so lib.so.1
