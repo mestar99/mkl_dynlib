@@ -5,6 +5,7 @@
 #include <mkl.h>
 
 #if 1
+#include <dlfcn.h>
 __attribute__((constructor)) static void fixmkl(){
   dlopen("libmkl_intel_lp64.so",RTLD_LAZY|RTLD_NOLOAD|RTLD_GLOBAL);
   //dlopen("libmkl_intel_thread.so",RTLD_LAZY|RTLD_NOLOAD|RTLD_GLOBAL);
