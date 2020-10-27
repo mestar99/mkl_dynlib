@@ -4,6 +4,16 @@
 
 #include <mkl.h>
 
+#if 1
+#include <dlfcn.h>
+__attribute__((constructor)) static void fixmkl(){
+  dlopen("libmkl_intel_lp64.so",RTLD_LAZY|RTLD_NOLOAD|RTLD_GLOBAL);
+  //dlopen("libmkl_intel_thread.so",RTLD_LAZY|RTLD_NOLOAD|RTLD_GLOBAL);
+  dlopen("libmkl_sequential.so",RTLD_LAZY|RTLD_NOLOAD|RTLD_GLOBAL);
+  dlopen("libmkl_core.so",RTLD_LAZY|RTLD_NOLOAD|RTLD_GLOBAL);
+}
+#endif
+
 void this_mkl_wrapper()
 {
   printf("Hello from library\n");
